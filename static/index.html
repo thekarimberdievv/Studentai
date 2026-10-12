@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Student AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#141A45;--mute:#4D5688;--glass:rgba(255,255,255,.42);--glass2:rgba(255,255,255,.62);--edge:rgba(255,255,255,.75);--line:rgba(255,255,255,.55);--shadow:0 10px 30px rgba(60,70,160,.18);--acc:#FFB627;--accink:#3A2800;--ok:#12906F;--bad:#C93550;--b1:#7C9BFF;--b2:#FF8FD0;--b3:#5FE3C8;--bg:#E9EDFF;--card:var(--glass);--opt:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#F1F3FF;--mute:#B4BBE6;--glass:rgba(255,255,255,.09);--glass2:rgba(255,255,255,.15);--edge:rgba(255,255,255,.28);--line:rgba(255,255,255,.2);--shadow:0 10px 30px rgba(0,0,0,.35);--bg:#0B0F2B;--ok:#4BE0BA;--opt:#1A2150}}
+:root[data-theme="dark"]{--ink:#F1F3FF;--mute:#B4BBE6;--glass:rgba(255,255,255,.09);--glass2:rgba(255,255,255,.15);--edge:rgba(255,255,255,.28);--line:rgba(255,255,255,.2);--shadow:0 10px 30px rgba(0,0,0,.35);--bg:#0B0F2B;--ok:#4BE0BA;--opt:#1A2150}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+body{margin:0;color:var(--ink);font:400 15px/1.5 Onest,system-ui,sans-serif;padding-bottom:104px;min-height:100vh;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(42vmax 42vmax at 12% 8%,var(--b1),transparent 70%),radial-gradient(38vmax 38vmax at 92% 30%,var(--b2),transparent 70%),radial-gradient(44vmax 44vmax at 30% 95%,var(--b3),transparent 70%),var(--bg);opacity:.85}
+main{max-width:560px;margin:0 auto;padding:16px}
+h1{font-size:28px;line-height:1.15;margin:4px 0 4px;font-weight:800;letter-spacing:-.02em}
+h2{font-size:17px;margin:20px 0 10px;font-weight:700}
+p{margin:0}.mute{color:var(--mute)}
+.g,.bal,.svc,.row,.stats div,nav,dialog,input,select{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);border:1px solid var(--edge);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(255,255,255,.12)}
+.bal{border-radius:26px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;margin:14px 0;background:linear-gradient(135deg,rgba(255,182,39,.5),var(--glass))}
+.bal b{font-size:26px;font-weight:800;display:block}
+button{font:inherit;cursor:pointer;border:0;border-radius:16px;padding:10px 16px;background:linear-gradient(180deg,#FFD067,#FFB627);color:var(--accink);font-weight:700;box-shadow:0 6px 16px rgba(255,182,39,.35),inset 0 1px 0 rgba(255,255,255,.7);transition:transform .15s}
+button:active{transform:scale(.96)}
+button.ghost{background:var(--glass2);border:1px solid var(--edge);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.svc{border-radius:22px;padding:14px;text-align:left;color:var(--ink);font-weight:500;display:flex;flex-direction:column;gap:6px}
+.svc .e{font-size:28px;width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:var(--glass2);border:1px solid var(--edge)}
+.svc b{font-weight:700}.svc small{color:var(--mute)}
+.row{border-radius:20px;padding:12px 14px;margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--glass2);border:1px solid var(--edge);white-space:nowrap}
+.tag.t{background:var(--ok);color:#fff;border-color:transparent}.tag.w{background:var(--acc);color:var(--accink);border-color:transparent}
+label{display:block;font-weight:500;margin:12px 0 4px}
+input,select{width:100%;font:inherit;padding:11px 14px;border-radius:16px;color:var(--ink)}
+option{background:var(--opt);color:var(--ink)}
+nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:536px;margin:0 auto;border-radius:30px;display:flex;justify-content:space-around;padding:6px}
+nav button{background:none;box-shadow:none;color:var(--mute);display:flex;flex-direction:column;align-items:center;font-size:11px;gap:1px;padding:6px 10px;border-radius:22px}
+nav button span{font-size:20px}nav button[aria-current=true]{color:var(--ink);background:var(--glass2);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 10px rgba(0,0,0,.08)}
+dialog{border-radius:30px;padding:18px;width:min(520px,94vw);color:var(--ink);background:var(--glass2)}
+dialog::backdrop{background:rgba(20,26,69,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sum{display:flex;justify-content:space-between;align-items:center;margin:16px 0 10px;font-weight:700}
+.sum b{font-size:22px}.err{color:var(--bad);font-weight:600;min-height:20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stats div{border-radius:20px;padding:10px 12px}.stats b{font-size:20px;display:block}
+.pr{display:flex;align-items:center;gap:8px;margin-bottom:8px}.pr span{flex:1}.pr input{width:110px}
+@media(prefers-reduced-motion:no-preference){dialog[open]{animation:up .25s ease-out}@keyframes up{from{transform:translateY(14px) scale(.98);opacity:0}}}
+</style></head><body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<dialog id="dlg"></dialog>
+<script>
+const tg=window.Telegram&&window.Telegram.WebApp;if(tg){tg.ready();tg.expand()}
+const S=[
+{id:'referat',e:'📄',n:'Referat',u:'bet',q:10},{id:'mustaqil',e:'🗂️',n:'Mustaqil ish',u:'bet',q:8},
+{id:'kurs',e:'📘',n:'Kurs ishi',u:'bet',q:30},{id:'slayd',e:'📊',n:'Slayd / taqdimot',u:'slayd',q:12},
+{id:'esse',e:'📝',n:'Esse',u:'bet',q:3},{id:'maqola',e:'🔬',n:'Ilmiy maqola',u:'bet',q:6},
+{id:'konspekt',e:'✏️',n:'Konspekt',u:'bet',q:5},{id:'test',e:'🧪',n:'Test tuzish',u:'savol',q:20},
+{id:'amaliy',e:'📚',n:'Amaliy ish / hisobot',u:'bet',q:10},{id:'diplom',e:'🎓',n:'Diplom ishi',u:'bet',q:50}];
+const CX={1:'Oddiy dizayn',1.3:"O'rta dizayn",1.7:'Murakkab dizayn'};
+const ST=['Navbatda','Tayyorlanmoqda','Tayyor (chatga yuborildi)','Xato, pul qaytarildi'];
+let D={bal:0,orders:[],prices:{},name:'',admin:false},AO=[],tab='home',ready=false;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const f=n=>Math.round(n).toLocaleString('en-US').replace(/,/g,' ')+" so'm";
+const pr=s=>D.prices[s.id]||0;
+async function api(p,m='GET',b){
+ const r=await fetch(p,{method:m,headers:{'Content-Type':'application/json','X-Init-Data':tg?tg.initData:''},body:b?JSON.stringify(b):undefined});
+ const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.detail||'Xatolik');return j}
+async function load(){try{D=await api('/api/me');ready=true}catch(e){document.getElementById('app').innerHTML=`<h1>Student AI</h1><p class="mute">${esc(e.message)}</p>`;return}render()}
+const TABS=()=>[['home','🏠','Xizmatlar'],['orders','📋','Buyurtmalar'],['bal','💳','Balans'],['me','👤','Profil']].concat(D.admin?[['admin','🛠️','Admin']]:[]);
+function nav(){document.getElementById('nav').innerHTML=TABS().map(t=>`<button onclick="go('${t[0]}')" ${tab==t[0]?'aria-current="true"':''}><span>${t[1]}</span>${t[2]}</button>`).join('')}
+async function go(t){tab=t;if(t=='admin'){try{AO=await api('/api/admin/orders')}catch(e){}}render()}
+const head=()=>`<div class="bal"><div><small>Balans</small><b>${f(D.bal)}</b></div><button class="ghost" onclick="go('bal')">To'ldirish</button></div>`;
+function render(){if(!ready)return;nav();const a=document.getElementById('app');
+if(tab=='home')a.innerHTML=`<h1>Student AI</h1><p class="mute">Referat, slayd, test va boshqa akademik ishlar — sun'iy intellekt yordamida.</p>${head()}<h2>Xizmatni tanlang</h2><div class="grid">${S.map(s=>`<button class="svc" onclick="order('${s.id}')"><span class="e">${s.e}</span><b>${s.n}</b><small>${f(pr(s))} / ${s.u}</small></button>`).join('')}</div>`;
+if(tab=='orders')a.innerHTML=`<h1>Buyurtmalar</h1>${D.orders.length?D.orders.map(o=>`<div class="row"><div><b>${esc(o.n)}</b><p class="mute">${esc(o.t)} · ${o.q} ${o.u}</p></div><div style="text-align:right"><span class="tag ${o.s==2?'t':'w'}">${ST[o.s]}</span><p class="mute">${f(o.c)}</p></div></div>`).join(''):`<p class="mute" style="margin-top:12px">Hali buyurtma yo'q. "Xizmatlar" bo'limidan birinchi ishingizni buyurtma qiling.</p>`}`;
+if(tab=='bal')a.innerHTML=`<h1>Balans</h1>${head()}<h2>Hisobni to'ldirish</h2><div class="grid">${[10000,25000,50000,100000].map(v=>`<button onclick="topup(${v})">+ ${f(v)}</button>`).join('')}</div><p class="mute" style="margin-top:12px" id="tm">Click / Payme orqali to'lov tez orada ulanadi. Hozircha balansni admin to'ldiradi.</p>`;
+if(tab=='me'){const sp=D.orders.reduce((x,o)=>x+(o.s==3?0:o.c),0);a.innerHTML=`<h1>${esc(D.name)}</h1><div class="stats" style="margin-top:16px"><div><b>${D.orders.length}</b><small class="mute">buyurtma</small></div><div><b>${D.orders.filter(o=>o.s==2).length}</b><small class="mute">tayyor</small></div><div><b>${Math.round(sp/1000)}k</b><small class="mute">sarflangan</small></div></div>`}
+if(tab=='admin')a.innerHTML=`<h1>Admin panel</h1><h2>Balansni to'ldirish</h2><label for="ti">Foydalanuvchi Telegram ID</label><input id="ti" type="number"><label for="ta">Summa (so'm)</label><input id="ta" type="number" step="1000"><p class="err" id="ae"></p><button onclick="atop()">To'ldirish</button><h2>Narxlar (1 birlik uchun)</h2>${S.map(s=>`<div class="pr"><span>${s.e} ${s.n}</span><input type="number" min="0" step="100" value="${pr(s)}" aria-label="${s.n} narxi" onchange="aprice('${s.id}',this.value)"></div>`).join('')}<h2>Oxirgi buyurtmalar</h2>${AO.length?AO.map(o=>`<div class="row"><div><b>${esc(o.n)}</b><p class="mute">${esc(o.user)} · ${esc(o.t)}</p></div><span class="tag ${o.s==2?'t':'w'}">${ST[o.s]}</span></div>`).join(''):'<p class="mute">Buyurtmalar yo\'q.</p>'}`}
+async function topup(v){try{await api('/api/topup','POST',{amount:v});await load()}catch(e){const m=document.getElementById('tm');if(m)m.textContent=e.message}}
+async function aprice(s,v){try{await api('/api/admin/price','PUT',{svc:s,price:+v});D.prices[s]=+v}catch(e){alert(e.message)}}
+async function atop(){const e=document.getElementById('ae');try{await api('/api/admin/topup','POST',{tg_id:+document.getElementById('ti').value,amount:+document.getElementById('ta').value});e.textContent='Bajarildi.'}catch(x){e.textContent=x.message}}
+function order(id){const s=S.find(x=>x.id==id),d=document.getElementById('dlg');
+d.innerHTML=`<h2 style="margin-top:0">${s.e} ${s.n}</h2><label for="t">Mavzu</label><input id="t" maxlength="300" placeholder="Masalan: O'zbekistonda raqamli iqtisodiyot"><label for="q">Hajmi (${s.u})</label><input id="q" type="number" min="1" max="100" value="${s.q}"><label for="x">Dizayn murakkabligi</label><select id="x">${Object.entries(CX).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select><div class="sum"><span>Narxi</span><b id="c"></b></div><p class="err" id="er"></p><div style="display:flex;gap:8px"><button class="ghost" onclick="document.getElementById('dlg').close()">Bekor qilish</button><button style="flex:1" id="ok">Buyurtma berish</button></div>`;
+const g=i=>document.getElementById(i),calc=()=>Math.max(0,+g('q').value||0)*pr(s)*(+g('x').value);
+const up=()=>g('c').textContent=f(calc());g('q').oninput=g('x').onchange=up;up();
+g('ok').onclick=async()=>{const er=g('er');if(!g('t').value.trim())return er.textContent='Mavzuni kiriting.';
+ g('ok').disabled=true;try{await api('/api/order','POST',{svc:s.id,topic:g('t').value,qty:+g('q').value,cx:+g('x').value});d.close();await load();go('orders')}catch(e){er.textContent=e.message;g('ok').disabled=false}};
+d.showModal();g('t').focus()}
+setInterval(()=>{if(tab=='orders'||tab=='me')load()},6000);
+load();
+</script>
+</body></html>
